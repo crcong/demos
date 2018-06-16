@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Event Bus</title>
+</head>
+<body>
+  <script>
+    class EventEmeitter {
+      constructor(maxListeners) {
+        this._events = new Map()
+        this._maxListeners = (maxListeners && maxListeners > 0) ? maxListeners : 10
+      }
+
+      emit(type, ...args) {
+        let handle = this._events.get(type)
+        args.length > 0 ? handle.apply(this, args) : handle.call(this)
+        return true
+      }
+
+      on(type, fn) {
+        if (!this._events.get(type)) this._events.set(type, fn)
+        console.log(this._events)
+      }
+    }
+
+    const emitter = new EventEmeitter()
+    emitter.on('test', a => {
+      console.log(`on: ${a}`)
+    })
+    emitter.on('test', a => {
+      console.log(`on2: ${a}`)
+    })
+    emitter.emit('test', 'a=10')
+    emitter.emit('test', 'a=20')
+  </script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Event Bus</title>
+</head>
+<body>
+  <script>
+    class EventEmeitter {
+      constructor(maxListeners) {
+        this._events = new Map()
+        this._maxListeners = (maxListeners && maxListeners > 0) ? maxListeners : 10
+      }
+
+      emit(type, ...args) {
+        const typeFnList = this._events.get(type)
+        typeFnList && typeFnList.forEach(fn => fn.apply(this, args))
+      }
+
+      on(type, fn) {
+        const typeFnList = this._events.get(type)
+        if (typeFnList) {
+          if (typeFnList.length >= this._maxListeners) return
+          typeFnList.push(fn)
+        } else {
+          this._events.set(type, [fn])
+        }
+      }
+
+      remove(type, fn) {
+        const typeFnList = this._events.get(type)
+        if (typeFnList && typeFnList.includes(fn)) {
+          typeFnList.splice(typeFnList.findIndex(e => e === fn), 1)
+        }
+      }
+    }
+
+    function a(a) {
+      console.log(`on2: ${a}`)
+    }
+
+    const emitter = new EventEmeitter()
+    emitter.on('test', a => {
+      console.log(`on: ${a}`)
+    })
+    emitter.on('test', a)
+    emitter.remove('test', a)
+    emitter.emit('test', 'a=101')
+    emitter.emit('test', 'a=20')
+  </script>
+</body>
+</html>
