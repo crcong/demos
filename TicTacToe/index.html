@@ -170,7 +170,7 @@
           if (row[j] === who) {
             count++;
           } else {
-            count = 0;
+            break;
           }
           if (count === 3) {
             return true;
@@ -187,7 +187,7 @@
           if (boardData[j][i] === who) {
             count++;
           } else {
-            count = 0;
+            break;
           }
           if (count === 3) {
             return true;
@@ -203,17 +203,19 @@
         if (boardData[i][i] === who) {
           count++;
         } else {
-          count = 0;
+          break;
         }
         if (count === 3) {
           return true;
         }
       }
+
+      count = 0
       for (var i = 0; i < boardData.length; i++) {
         if (boardData[i][boardData.length - 1 - i] === who) {
           count++;
         } else {
-          count = 0;
+          break;
         }
         if (count === 3) {
           return true;
@@ -245,7 +247,6 @@
         tips.innerHTML = '平局！！！';
         return true;
       }
-
 
       return false;
     }
