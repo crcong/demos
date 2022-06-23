@@ -209,6 +209,16 @@
           return true;
         }
       }
+      for (var i = 0; i < boardData.length; i++) {
+        if (boardData[i][boardData.length - 1 - i] === who) {
+          count++;
+        } else {
+          count = 0;
+        }
+        if (count === 3) {
+          return true;
+        }
+      }
       return false;
     }
 
