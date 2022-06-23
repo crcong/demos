@@ -234,17 +234,18 @@
     }
 
     function getResult() {
+      if (checkRow() || checkCol() || checkDiag()) {
+        status = 'over';
+        tips.innerHTML = '游戏结束！！恭喜获胜者是' + (who === 'X' ? '蓝方' : '红方') + '！！！';
+        return true;
+      }
+
       if (checkDraw()) {
         status = 'over';
         tips.innerHTML = '平局！！！';
         return true;
       }
 
-      if (checkRow() || checkCol() || checkDiag()) {
-        status = 'over';
-        tips.innerHTML = '游戏结束！！恭喜获胜者是' + (who === 'X' ? '蓝方' : '红方') + '！！！';
-        return true;
-      }
 
       return false;
     }
