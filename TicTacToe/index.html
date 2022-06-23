@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>井字棋</title>
+
+  <style>
+    .board {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      width: 320px;
+      height: 320px;
+      margin: 30px auto;
+    }
+
+    .tips {
+      text-align: center;
+      font-size: 20px;
+      margin-top: 20px;
+    }
+
+    .tile {
+      width: 100px;
+      height: 100px;
+      background: rgba(0, 0, 0, 0.10);
+      overflow: hidden;
+    }
+
+    .tile00 {
+      border-radius: 10px 0 0 0;
+    }
+
+    .tile02 {
+      border-radius: 0 10px 0 0;
+    }
+
+    .tile20 {
+      border-radius: 0 0 0 10px;
+    }
+
+    .tile22 {
+      border-radius: 0 0 10px 0;
+    }
+
+    .tile:hover {
+      cursor: pointer;
+      background: rgba(0, 0, 0, 0.25);
+    }
+
+    .tileX::after {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      content: "X";
+      background: #004974;
+      color: #89dcf6;
+      font-size: 40px;
+    }
+
+    .tileO::after {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      content: "O";
+      background: #a60011;
+      color: #ffc7b5;
+      font-size: 40px;
+    }
+
+    .restart {
+      width: 140px;
+      height: 40px;
+      text-align: center;
+      line-height: 40px;
+      background: #111;
+      color: #fff;
+      border-radius: 5px;
+      margin: 20px auto;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="board"></div>
+  <div class="tips">到蓝方走!</div>
+  <div class="restart">重新开始</div>
+
+  <script>
+    var boardData = [
+      [0, 0, 0],
+      [0, 0, 0],
+      [0, 0, 0],
+    ];
+    var board = document.querySelector('.board');
+    var tips = document.querySelector('.tips');
+    var restart = document.querySelector('.restart');
+    var who = 'X';
+    var status = 'playing';
+
+    createBoard();
+    bindEvent();
+
+    function createBoard() {
+      for (var i = 0; i < boardData.length; i++) {
+        for (var j = 0; j < boardData[i].length; j++) {
+          var tile = document.createElement('div');
+          tile.classList.add('tile');
+          tile.classList.add('tile' + i + j);
+          tile.setAttribute('data-i', i);
+          tile.setAttribute('data-j', j);
+          board.appendChild(tile);
+        }
+      }
+    }
+
+    function bindEvent() {
+      board.addEventListener('click', function (e) {
+        if (status !== 'playing') {
+          return;
+        }
+        var target = e.target;
+        if (target.classList.contains('tile')) {
+          var i = target.getAttribute('data-i');
+          var j = target.getAttribute('data-j');
+          if (boardData[i][j] === 0) {
+            boardData[i][j] = who;
+            var isOver = getResult();
+            target.classList.add('tile' + who);
+
+            if (!isOver) {
+              if (who === 'X') {
+                who = 'O';
+                tips.innerHTML = '到红方走!';
+              } else {
+                who = 'X';
+                tips.innerHTML = '到蓝方走!';
+              }
+            }
+          }
+        }
+      });
+      restart.addEventListener('click', function () {
+        boardData = [
+          [0, 0, 0],
+          [0, 0, 0],
+          [0, 0, 0],
+        ];
+        board.innerHTML = '';
+        createBoard();
+        who = 'X';
+        status = 'playing';
+        tips.innerHTML = '到蓝方走!';
+      });
+    }
+
+    function checkRow() {
+      for (var i = 0; i < boardData.length; i++) {
+        var row = boardData[i];
+        var count = 0;
+        for (var j = 0; j < row.length; j++) {
+          if (row[j] === who) {
+            count++;
+          } else {
+            count = 0;
+          }
+          if (count === 3) {
+            return true;
+          }
+        }
+      }
+      return false;
+    }
+
+    function checkCol() {
+      for (var i = 0; i < boardData[0].length; i++) {
+        var count = 0;
+        for (var j = 0; j < boardData.length; j++) {
+          if (boardData[j][i] === who) {
+            count++;
+          } else {
+            count = 0;
+          }
+          if (count === 3) {
+            return true;
+          }
+        }
+      }
+      return false;
+    }
+
+    function checkDiag() {
+      var count = 0;
+      for (var i = 0; i < boardData.length; i++) {
+        if (boardData[i][i] === who) {
+          count++;
+        } else {
+          count = 0;
+        }
+        if (count === 3) {
+          return true;
+        }
+      }
+      return false;
+    }
+
+    function checkDraw() {
+      for (var i = 0; i < boardData.length; i++) {
+        for (var j = 0; j < boardData[i].length; j++) {
+          if (boardData[i][j] === 0) {
+            return false;
+          }
+        }
+      }
+      return true;
+    }
+
+    function getResult() {
+      if (checkDraw()) {
+        status = 'over';
+        tips.innerHTML = '平局！！！';
+        return true;
+      }
+
+      if (checkRow() || checkCol() || checkDiag()) {
+        status = 'over';
+        tips.innerHTML = '游戏结束！！恭喜获胜者是' + (who === 'X' ? '蓝方' : '红方') + '！！！';
+        return true;
+      }
+
+      return false;
+    }
+  </script>
+</body>
+
+</html>
