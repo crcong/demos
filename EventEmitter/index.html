@@ -8,7 +8,7 @@
 </head>
 <body>
   <script>
-    class EventEmeitter {
+    class EventEmitter {
       constructor(maxListeners) {
         this._events = new Map()
         this._maxListeners = (maxListeners && maxListeners > 0) ? maxListeners : 10
@@ -41,7 +41,7 @@
       console.log(`on2: ${a}`)
     }
 
-    const emitter = new EventEmeitter()
+    const emitter = new EventEmitter()
     emitter.on('test', a => {
       console.log(`on: ${a}`)
     })
