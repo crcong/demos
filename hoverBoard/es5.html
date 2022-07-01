@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hoverboard</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #111;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+      margin: 0;
+    }
+
+    .container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      max-width: 400px;
+    }
+
+    .square {
+      background-color: #1d1d1d;
+      box-shadow: 0 0 2px #000;
+      height: 16px;
+      width: 16px;
+      margin: 2px;
+      transition: 2s ease;
+    }
+
+    .square:hover {
+      transition-duration: 0s;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container" id="container"></div>
+
+  <script>
+    var container = document.getElementById('container');
+    var colors = ['#e74c3c', '#8e44ad', '#3498db', '#e67e22', '#2ecc71'];
+    var SQUARES = 500;
+
+    createSquare(SQUARES);
+    bindSquareEvent();
+
+    function createSquare(n) {
+      for (var i = 0; i < n; i++) {
+        var square = document.createElement('div');
+        square.classList.add('square');
+        container.appendChild(square);
+      }
+    }
+
+    function bindSquareEvent() {
+      var squares = document.querySelectorAll('.square');
+      for (var i = 0; i < squares.length; i++) {
+        squares[i].addEventListener('mouseover', setColor);
+        squares[i].addEventListener('mouseout', removeColor);
+      }
+    }
+
+    function setColor() {
+      const color = getRandomColor();
+      this.style.background = color;
+      this.style.boxShadow = `0 0 2px ${color}, 0 0 10px ${color}`;
+    }
+
+    function removeColor() {
+      this.style.background = '#1d1d1d';
+      this.style.boxShadow = '0 0 2px #000';
+    }
+
+    function getRandomColor() {
+      return colors[Math.floor(Math.random() * colors.length)];
+    }
+  </script>
+</body>
+
+</html>
