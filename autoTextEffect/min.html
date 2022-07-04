@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Auto Text Effect</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: darksalmon;
+      font-family: 'Roboto', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+      margin: 0;
+    }
+
+    div {
+      position: absolute;
+      bottom: 20px;
+      background: rgba(0, 0, 0, 0.1);
+      padding: 10px 20px;
+      font-size: 18px;
+    }
+
+    input {
+      width: 50px;
+      padding: 5px;
+      font-size: 18px;
+      background-color: darksalmon;
+      border: none;
+      text-align: center;
+    }
+
+    input:focus {
+      outline: none;
+    }
+  </style>
+</head>
+
+<body>
+  <h1 id="text">Starting...</h1>
+
+  <div>
+    <label for="speed">Speed:</label>
+    <input type="number" name="speed" id="speed" value="1" min="1" max="10" step="1">
+  </div>
+
+  <script>
+    eval(function (p, a, c, k, e, d) { e = function (c) { return c.toString(36) }; if (!''.replace(/^/, String)) { while (c--) { d[c.toString(a)] = k[c] || c.toString(a) } k = [function (e) { return d[e] }]; e = function () { return '\\w+' }; c = 1 }; while (c--) { if (k[c]) { p = p.replace(new RegExp('\\b' + e(c) + '\\b', 'g'), k[c]) } } return p }('"g h";c 6(){9.i=3.j(0,2),2++,2>3.f&&(2=1),k(6,4)}d 9=8.a("3"),5=8.a("4"),3="o q l!",2=1,4=b/5.7;6(),5.p("m",c(e){n 4=b/e.r.7});', 28, 28, '||idx|text|speed|speedEl|writeText|value|document|textEl|getElementById|300|function|var||length|use|strict|innerText|slice|setTimeout|Programming|input|return|We|addEventListener|Love|target'.split('|'), 0, {}))
+  </script>
+</body>
+
+</html>
