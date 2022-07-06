@@ -1,0 +1,96 @@
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Auto Text Effect</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: darksalmon;
+            font-family: 'Roboto', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+            margin: 0;
+        }
+
+        div {
+            position: absolute;
+            bottom: 20px;
+            background: rgba(0, 0, 0, 0.1);
+            padding: 10px 20px;
+            font-size: 18px;
+        }
+
+        input {
+            width: 50px;
+            padding: 5px;
+            font-size: 18px;
+            background-color: darksalmon;
+            border: none;
+            text-align: center;
+        }
+
+        input:focus {
+            outline: none;
+        }
+    </style>
+</head>
+
+<body>
+    <h1 id="text">Starting...</h1>
+
+    <div>
+        <label for="speed">Speed:</label>
+        <input type="number" name="speed" id="speed" value="1" min="1" max="10" step="1">
+    </div>
+
+    <script>
+        var textEl = document.getElementById('text');
+        var speedEl = document.getElementById('speed');
+        var text = 'We Love Programming!';
+        var idx = 1;
+        var speedMap = {
+            1: 300,
+            2: 250,
+            3: 200,
+            4: 150,
+            5: 100,
+            6: 75,
+            7: 60,
+            8: 40,
+            9: 35,
+            10: 30, 
+        };
+        var speed = speedMap[1];
+
+        writeText();
+
+        function writeText() {
+            textEl.innerText = text.slice(0, idx);
+
+            idx++;
+
+            if (idx > text.length) {
+                idx = 1;
+            }
+
+            setTimeout(writeText, speed);
+        }
+
+
+        speedEl.addEventListener('input', function () {
+            speed = speedMap[this.value];
+        });
+    </script>
+</body>
+
+</html>
